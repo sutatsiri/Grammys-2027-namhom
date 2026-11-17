@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Grammys 2027 Predictions</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{--bg:#fbf8f1;--card:#fff;--ink:#1c1a17;--mut:#7a7468;--line:#e6dfd0;--gold:#b8860b;--ok:#1f9d55;--bad:#d64545;--peg:#cfc8b8;--chip:#f4efe2;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#121110;--card:#1c1a17;--ink:#f3eee2;--mut:#9a927f;--line:#322e27;--gold:#e5b94a;--ok:#3ecf7a;--bad:#ff6b6b;--peg:#4a453b;--chip:#26231e;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:760px;margin:0 auto;padding:18px 14px 60px}
+h1{font:700 28px/1.1 Georgia,"Times New Roman",serif;margin:0;color:var(--gold)}
+h2{font:700 18px Georgia,serif;margin:26px 0 10px}
+.sub{color:var(--mut);font-size:14px;margin:4px 0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.cd{display:flex;gap:8px;justify-content:center;text-align:center}
+.cd div{background:var(--chip);border-radius:10px;padding:10px 6px;min-width:64px}
+.cd b{display:block;font:700 28px Georgia,serif;color:var(--gold)}
+.cd span{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)}
+button.main{background:var(--gold);color:#17130a;border:0;border-radius:10px;padding:10px 16px;font:600 15px system-ui,sans-serif;cursor:pointer}
+button.ghost{background:none;border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:6px 10px;font:inherit;font-size:13px;cursor:pointer}
+.row{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.row:first-of-type{border-top:0}
+.rank{width:26px;font:700 18px Georgia,serif;color:var(--mut)}
+.name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.pegs{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;max-width:50%}
+.peg{width:14px;height:14px;border-radius:50%;background:var(--peg)}
+.peg.ok{background:var(--ok)}.peg.bad{background:var(--bad)}
+.peg.half{background:linear-gradient(90deg,var(--ok) 50%,var(--peg) 50%)}
+.score{width:44px;text-align:right;font:700 20px Georgia,serif}
+.me{color:var(--gold)}
+.tag{font-size:12px;color:var(--mut)}
+.live{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ok);margin-right:6px;animation:p 1.4s infinite}
+@keyframes p{50%{opacity:.25}}
+table{border-collapse:collapse;font-size:13px;width:100%}
+td,th{border-top:1px solid var(--line);padding:6px 8px;text-align:left}
+td.ok{color:var(--ok);font-weight:600}td.bad{color:var(--bad)}
+.scroll{overflow-x:auto}
+textarea,input[type=text],select{width:100%;background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px;font:inherit;font-size:14px;margin-top:6px}
+.note{color:var(--mut);font-size:13px}
+.noms{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:10px}
+.nom{border:1px solid var(--line);background:var(--chip);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.nom.sel{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold)}
+.nom.win{outline:2px solid var(--ok);outline-offset:2px}
+.tap{cursor:pointer}
+.pic{width:100%;aspect-ratio:1;object-fit:cover;display:flex;align-items:center;justify-content:center;font:700 36px Georgia,serif;color:#fff}
+.nm{padding:8px 8px 4px;font-size:13px;font-weight:600;line-height:1.25}
+.lk{display:flex;gap:10px;padding:2px 8px 8px;font-size:12px}
+.lk a{color:var(--gold);text-decoration:none;font-weight:600}
+.badge{font-size:11px;color:var(--gold);padding:0 8px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+a.lnk{color:var(--gold);cursor:pointer;font-size:13px;background:none;border:0;padding:0;font-family:inherit}
+</style>
+</head>
+<body>
+<main>
+  <div class="top">
+    <div>
+      <h1>🏆 Grammys 2027 Predictions</h1>
+      <div class="sub">69th Annual Grammy Awards · Crack the code with your friends</div>
+    </div>
+    <div id="who" class="note" style="text-align:right"></div>
+  </div>
+  <div class="card">
+    <div class="cd" id="cd"></div>
+    <div class="note" style="text-align:center;margin-top:10px" id="cdnote"></div>
+  </div>
+  <div id="app"><div class="note">Loading…</div></div>
+</main>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getFirestore,doc,collection,setDoc,onSnapshot} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+/* ============ 1) PASTE YOUR FIREBASE CONFIG HERE (see setup steps) ============ */
+const firebaseConfig = {
+  apiKey: "AIzaSyB4QNsFWWV-OGRXNyNk4u84rNJBmnRh-E0",
+  authDomain: "grammys-2027-namhom.firebaseapp.com",
+  projectId: "grammys-2027-namhom",
+  storageBucket: "grammys-2027-namhom.firebasestorage.app",
+  messagingSenderId: "343359579657",
+  appId: "1:343359579657:web:8fb59ab1a05eecb73afad8"
+};
+/* ============ 2) CHOOSE YOUR HOST PASSCODE (only you should know it) ============ */
+const HOST_PASSCODE = "Namhom2027";
+/* ============ 3) Ceremony: Sun 7 Feb 2027, 7pm ET = Mon 8 Feb 2027, 07:00 Thailand (UTC+7) ============ */
+const TARGET = new Date("2027-02-08T07:00:00+07:00").getTime();
+
+const STARTER = [
+  {id:"roty",name:"Record of the Year",nominees:["Man I Need – Olivia Dean","Choosin’ Texas – Ella Langley","I Just Might – Bruno Mars","WHERE IS MY HUSBAND! – RAYE","the cure – Olivia Rodrigo","Berghain – ROSALÍA, Björk & Yves Tumor"]},
+  {id:"bna",name:"Best New Artist",nominees:["Angine de Poitrine","Geese","Ella Langley","Slayyyter","SIENNA SPIRO","Don Toliver","Remi Wolf","The Womack Sisters"]}
+];
+
+const $ = s => document.querySelector(s);
+const app = $("#app");
+const arr = v => Array.isArray(v) ? v : (v ? [v] : []);
+const hid = s => { let x = 5381; for (const c of s) x = ((x*33) ^ c.charCodeAt(0)) >>> 0; return x.toString(36); };
+const locked = () => Date.now() >= TARGET;
+
+let db, cfg = null, imgs = {}, players = {}, pid = localStorage.getItem("g27pid"), myDraft = null;
+let isHost = sessionStorage.getItem("g27host") === "1", dirty = false, status = "";
+
+function h(tag, props, ...kids){
+  const e = document.createElement(tag);
+  for (const k in (props||{})){
+    if (props[k] === null) continue;
+    if (k === "class") e.className = props[k];
+    else if (k.startsWith("on")) e[k] = props[k];
+    else e.setAttribute(k, props[k]);
+  }
+  kids.flat().forEach(c => e.append(c instanceof Node ? c : document.createTextNode(c ?? "")));
+  return e;
+}
+
+/* ---------- Countdown ---------- */
+function tick(){
+  let d = TARGET - Date.now();
+  const box = $("#cd");
+  if (d <= 0){
+    box.replaceChildren(h("div",{},h("b",{},"🎤"),h("span",{},"Ceremony is on / over")));
+    $("#cdnote").textContent = "Picks are locked. Scores update live as winners are announced.";
+    return;
+  }
+  const p = [["days",86400000],["hours",3600000],["min",60000],["sec",1000]];
+  box.replaceChildren(...p.map(([l,m])=>{const v=Math.floor(d/m);d%=m;return h("div",{},h("b",{},String(v).padStart(2,"0")),h("span",{},l));}));
+  $("#cdnote").textContent = "Until Mon 8 Feb 2027, 07:00 Thailand time (Sun 7 Feb, 7pm ET). Picks lock then.";
+}
+setInterval(tick,1000); tick();
+
+/* ---------- Scoring: 1 pick right = 1 pt, 2 picks & one right = 0.5 pt ---------- */
+function scoreOf(p){
+  const pk = (p && p.picks) || {};
+  let s = 0;
+  const pegs = ((cfg && cfg.cats) || []).map(c=>{
+    if (!c.winner) return "";
+    const a = arr(pk[c.id]);
+    if (a.includes(c.winner)){ s += 1/a.length; return a.length > 1 ? "half" : "ok"; }
+    return "bad";
+  });
+  return {s, pegs};
+}
+
+/* ---------- Render ---------- */
+function render(){
+  const act = document.activeElement;
+  if (act && ["TEXTAREA","INPUT","SELECT"].includes(act.tagName)) return; // don't clobber typing
+  $("#who").replaceChildren(...(pid && players[pid] ? [
+    "Playing as ", h("b",{},players[pid].name), " · ",
+    h("button",{class:"lnk",onclick:switchPlayer},"switch"), " · ",
+    h("button",{class:"lnk",onclick:hostLogin},isHost?"host ✓":"host login")
+  ] : [h("button",{class:"lnk",onclick:hostLogin},isHost?"host ✓":"host login")]));
+
+  if (!cfg || !(cfg.cats||[]).length){
+    app.replaceChildren(h("div",{class:"card"},
+      h("b",{},"No categories yet."),
+      h("p",{class:"note"}, isHost ? "Load the starter categories, then add more below." : "Waiting for the host to set up the categories – check back soon!"),
+      isHost ? h("button",{class:"main",onclick:()=>saveCats(STARTER)},"Load starter categories") : ""),
+      ...(isHost?[hostPanel()]:[]));
+    return;
+  }
+  if (!pid || !players[pid]){ app.replaceChildren(joinCard(), leaderboard(), ...(isHost?[hostPanel()]:[])); return; }
+
+  const out = [leaderboard(), h("h2",{},"Your predictions"),
+    h("div",{class:"note"}, locked() ? "Picks are locked." : "Pick 1 or 2 nominees per category, then save. One pick = 1 point if right; two picks = 0.5 point if either is right. You can change picks until kickoff. Friends see your picks after lock."),
+    ...cfg.cats.map(catCard)];
+  if (!locked()) out.push(h("button",{class:"main",onclick:savePicks}, dirty ? "Save my picks" : "Saved ✓"), h("span",{class:"note",style:"margin-left:10px"},status));
+  else out.push(h("h2",{},"Everyone’s picks"), pickTable());
+  if (isHost) out.push(hostPanel());
+  app.replaceChildren(...out);
+}
+
+function joinCard(){
+  const inp = h("input",{type:"text",placeholder:"Your nickname",maxlength:"20"});
+  const ids = Object.keys(players);
+  return h("div",{class:"card"},
+    h("b",{},"Join the game"),
+    h("p",{class:"note"},"Pick a nickname to start predicting."),
+    inp, h("button",{class:"main",style:"margin-top:8px",onclick:()=>joinGame(inp.value)},"Join"),
+    ids.length ? h("div",{style:"margin-top:14px"},h("div",{class:"note"},"Already playing on another device? Tap your name:"),
+      h("div",{style:"display:flex;gap:6px;flex-wrap:wrap;margin-top:6px"},ids.map(i=>h("button",{class:"ghost",onclick:()=>claim(i)},players[i].name)))) : "");
+}
+
+function leaderboard(){
+  const rows = Object.keys(players).map(id=>({id,...scoreOf(players[id])})).sort((a,b)=>b.s-a.s);
+  const done = cfg.cats.filter(c=>c.winner).length;
+  const card = h("div",{class:"card"}, h("div",{class:"tag"},h("span",{class:"live"}),"Live scoreboard · ",done+"/"+cfg.cats.length+" winners announced"));
+  if (!rows.length) card.append(h("div",{class:"note",style:"margin-top:8px"},"No players yet – be the first to join!"));
+  rows.forEach((r,i)=>card.append(h("div",{class:"row"},
+    h("div",{class:"rank"},String(i+1)),
+    h("div",{class:"name"+(r.id===pid?" me":"")},r.id===pid?"You":players[r.id].name),
+    h("div",{class:"pegs"},cfg.cats.map((_,j)=>h("div",{class:"peg "+r.pegs[j]}))),
+    h("div",{class:"score"},String(r.s)))));
+  card.append(h("div",{class:"note",style:"margin-top:8px"},"🟢 1 point · 🌗 half point (2 picks) · 🔴 miss · ⚪ not announced yet"));
+  return card;
+}
+
+function pic(c,n){
+  const u = imgs[c.id+"_"+hid(n)];
+  if (u) return h("img",{class:"pic",src:u,alt:n,loading:"lazy"});
+  let hue=0; for(const ch of n) hue=(hue*31+ch.charCodeAt(0))%360;
+  const ini=n.split(/[\s–-]+/).filter(w=>/^[\p{L}\p{N}]/u.test(w)).slice(0,2).map(w=>w[0].toUpperCase()).join("");
+  return h("div",{class:"pic",style:"background:hsl("+hue+" 45% 38%)"},ini||"♪");
+}
+
+function catCard(c){
+  const sel = arr(myDraft[c.id]);
+  const toggle = n => { if(locked())return; let a=arr(myDraft[c.id]); a = a.includes(n) ? a.filter(x=>x!==n) : (a.length>=2 ? [a[1],n] : [...a,n]); myDraft[c.id]=a; dirty=true; status=""; render(); };
+  return h("div",{class:"card"},
+    h("b",{},c.name), c.winner ? h("span",{class:"tag"}," · Winner: "+c.winner) : "",
+    h("div",{class:"noms"}, c.nominees.map(n=>{
+      const q = encodeURIComponent(n);
+      return h("div",{class:"nom"+(sel.includes(n)?" sel":"")+(c.winner===n?" win":"")},
+        h("div",{class:"tap",onclick:()=>toggle(n)},pic(c,n),h("div",{class:"nm"},n)),
+        sel.includes(n)?h("div",{class:"badge"},"✓ your pick"):"",
+        h("div",{class:"lk"},
+          h("a",{href:"https://open.spotify.com/search/"+q,target:"_blank",rel:"noopener noreferrer"},"Spotify"),
+          h("a",{href:"https://www.youtube.com/results?search_query="+q,target:"_blank",rel:"noopener noreferrer"},"YouTube")));
+    })));
+}
+
+function pickTable(){
+  const ids = Object.keys(players);
+  const t = h("table",{},h("tr",{},h("th",{},"Category"),ids.map(id=>h("th",{},id===pid?"You":players[id].name))));
+  cfg.cats.forEach(c=>t.append(h("tr",{},h("td",{},c.name),ids.map(id=>{
+    const v = arr(((players[id]||{}).picks||{})[c.id]);
+    return h("td",{class:c.winner?(v.includes(c.winner)?"ok":"bad"):""},v.join(" / ")||"—");
+  }))));
+  return h("div",{class:"card scroll"},t);
+}
+
+/* ---------- Host panel ---------- */
+function hostPanel(){
+  const box = h("div",{class:"card"},h("h2",{style:"margin-top:0"},"🎛 Host panel"),
+    h("div",{class:"note"},"Set the winner as each award is announced and everyone’s scores update instantly."));
+  ((cfg&&cfg.cats)||[]).forEach(c=>{
+    const sel = h("select",{onchange:e=>setWinner(c.id,e.target.value)},
+      h("option",{value:""},"— winner not announced —"),
+      c.nominees.map(n=>{const o=h("option",{value:n},n); if(c.winner===n)o.selected=true; return o;}));
+    const ta = h("textarea",{rows:"4"}); ta.value = c.nominees.join("\n");
+    box.append(h("div",{style:"border-top:1px solid var(--line);padding-top:10px;margin-top:10px"},
+      h("b",{},c.name),sel,
+      h("details",{},h("summary",{class:"note"},"Edit nominees (one per line)"),ta,
+        h("button",{class:"ghost",style:"margin-top:6px",onclick:()=>editNominees(c.id,ta.value)},"Save nominees")),
+      h("details",{},h("summary",{class:"note"},"Upload photos (cover art / artist photo)"),
+        c.nominees.map(n=>h("div",{class:"note",style:"margin-top:8px"},n,h("input",{type:"file",accept:"image/*",onchange:e=>uploadPic(c,n,e)})))),
+      h("button",{class:"ghost",style:"margin-top:6px",onclick:()=>{ if(confirm("Delete "+c.name+"?")) saveCats(cfg.cats.filter(x=>x.id!==c.id)); }},"Delete category")));
+  });
+  const nm = h("input",{type:"text",placeholder:"New category name, e.g. Album of the Year"});
+  const nn = h("textarea",{rows:"4",placeholder:"Nominees, one per line"});
+  box.append(h("div",{style:"border-top:1px solid var(--line);padding-top:10px;margin-top:14px"},h("b",{},"Add category"),nm,nn,
+    h("button",{class:"main",style:"margin-top:8px",onclick:()=>{
+      const name=nm.value.trim(), list=nn.value.split("\n").map(s=>s.trim()).filter(Boolean);
+      if(!name||list.length<2) return alert("Need a name and at least 2 nominees.");
+      saveCats([...(cfg?cfg.cats:[]),{id:"c"+Date.now().toString(36),name,nominees:list}]);
+    }},"Add")));
+  return box;
+}
+
+/* ---------- Writes ---------- */
+async function saveCats(cats){
+  try{ await setDoc(doc(db,"game","config"),{cats:JSON.parse(JSON.stringify(cats))}); }
+  catch(e){ alert("Could not save: "+e.message); }
+}
+function setWinner(id,val){ saveCats(cfg.cats.map(c=>{const n={...c}; if(c.id===id){ if(val) n.winner=val; else delete n.winner; } return n;})); }
+function editNominees(id,txt){
+  const list = txt.split("\n").map(s=>s.trim()).filter(Boolean); if(list.length<2) return alert("Need at least 2 nominees.");
+  saveCats(cfg.cats.map(c=>{ if(c.id!==id) return c; const n={...c,nominees:list}; if(!list.includes(c.winner)) delete n.winner; return n; }));
+}
+async function shrink(file){
+  const bm = await createImageBitmap(file); const s = Math.min(1,360/Math.max(bm.width,bm.height));
+  const cv = document.createElement("canvas"); cv.width = Math.round(bm.width*s); cv.height = Math.round(bm.height*s);
+  cv.getContext("2d").drawImage(bm,0,0,cv.width,cv.height);
+  return cv.toDataURL("image/jpeg",.8);
+}
+async function uploadPic(c,n,e){
+  const f = e.target.files[0]; if(!f) return;
+  try{ await setDoc(doc(db,"imgs",c.id+"_"+hid(n)),{data:await shrink(f)}); }
+  catch(err){ alert("Upload failed: "+err.message); }
+  e.target.blur();
+}
+async function joinGame(name){
+  name = name.trim().slice(0,20); if(!name) return;
+  if (Object.values(players).some(p=>p.name.toLowerCase()===name.toLowerCase())) return alert("That nickname is taken – pick another, or tap your name below.");
+  const id = "p"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+  await setDoc(doc(db,"players",id),{name,picks:{}});
+  claim(id);
+}
+function claim(id){ pid = id; localStorage.setItem("g27pid",id); myDraft = {...((players[id]||{}).picks||{})}; render(); }
+function switchPlayer(){ localStorage.removeItem("g27pid"); pid = null; myDraft = {}; render(); }
+function hostLogin(){
+  if (isHost){ isHost = false; sessionStorage.removeItem("g27host"); return render(); }
+  const p = prompt("Host passcode:");
+  if (p === HOST_PASSCODE){ isHost = true; sessionStorage.setItem("g27host","1"); } else if (p !== null) alert("Wrong passcode.");
+  render();
+}
+async function savePicks(){
+  if (locked() || !pid) return;
+  try{ await setDoc(doc(db,"players",pid),{name:players[pid].name,picks:myDraft}); dirty=false; status="Saved!"; }
+  catch(e){ status="Couldn’t save – check your connection."; }
+  render();
+}
+
+/* ---------- Boot ---------- */
+if (!firebaseConfig.apiKey || firebaseConfig.apiKey === "PASTE_HERE"){
+  app.replaceChildren(h("div",{class:"card"},h("b",{},"Almost there!"),h("p",{class:"note"},"Open index.html and paste your Firebase config at the top (setup step 3). Then reload.")));
+} else {
+  db = getFirestore(initializeApp(firebaseConfig));
+  myDraft = {};
+  onSnapshot(doc(db,"game","config"), s=>{ cfg = s.exists() ? s.data() : null; render(); }, e=>app.replaceChildren(h("div",{class:"card"},"Can’t reach the game database: "+e.message)));
+  onSnapshot(collection(db,"players"), q=>{
+    players = {}; q.forEach(d=>players[d.id]=d.data());
+    if (pid && players[pid] && !dirty) myDraft = {...(players[pid].picks||{})};
+    if (pid && !players[pid] && q.size) { /* stale id on this device */ }
+    render();
+  });
+  onSnapshot(collection(db,"imgs"), q=>{ imgs = {}; q.forEach(d=>imgs[d.id]=d.data().data); render(); });
+}
+</script>
+</body>
+</html>

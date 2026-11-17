@@ -5,20 +5,20 @@
 <title>Grammys 2027 Predictions</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <style>
-:root{--bg:#fbf8f1;--card:#fff;--ink:#1c1a17;--mut:#7a7468;--line:#e6dfd0;--gold:#b8860b;--ok:#1f9d55;--bad:#d64545;--peg:#cfc8b8;--chip:#f4efe2;color-scheme:light}
-@media (prefers-color-scheme:dark){:root{--bg:#121110;--card:#1c1a17;--ink:#f3eee2;--mut:#9a927f;--line:#322e27;--gold:#e5b94a;--ok:#3ecf7a;--bad:#ff6b6b;--peg:#4a453b;--chip:#26231e;color-scheme:dark}}
+:root{--purple:#482d5a;--gv:#e3cb85;--cl:#cda84f;--mt:#151119;
+--bg:#482d5a;--card:#151119;--ink:#e3cb85;--mut:rgba(227,203,133,.62);--line:rgba(227,203,133,.2);--gold:#cda84f;--ok:#7bd69a;--bad:#ef7b7b;--peg:rgba(227,203,133,.22);--chip:#2a1d36;color-scheme:dark}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+body{margin:0;background:linear-gradient(180deg,#482d5a 0%,#3a2449 55%,#151119 100%) fixed;color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
 main{max-width:760px;margin:0 auto;padding:18px 14px 60px}
-h1{font:700 28px/1.1 Georgia,"Times New Roman",serif;margin:0;color:var(--gold)}
-h2{font:700 18px Georgia,serif;margin:26px 0 10px}
+h1{font:700 28px/1.1 Georgia,"Times New Roman",serif;margin:0;color:var(--gv)}
+h2{font:700 18px Georgia,serif;margin:26px 0 10px;color:var(--gv)}
 .sub{color:var(--mut);font-size:14px;margin:4px 0 16px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 6px 24px rgba(0,0,0,.25)}
 .cd{display:flex;gap:8px;justify-content:center;text-align:center}
-.cd div{background:var(--chip);border-radius:10px;padding:10px 6px;min-width:64px}
-.cd b{display:block;font:700 28px Georgia,serif;color:var(--gold)}
+.cd div{background:var(--purple);border-radius:12px;padding:10px 6px;min-width:64px}
+.cd b{display:block;font:700 28px Georgia,serif;color:var(--gv)}
 .cd span{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)}
-button.main{background:var(--gold);color:#17130a;border:0;border-radius:10px;padding:10px 16px;font:600 15px system-ui,sans-serif;cursor:pointer}
+button.main{background:var(--gold);color:var(--mt);border:0;border-radius:10px;padding:10px 16px;font:700 15px system-ui,sans-serif;cursor:pointer}
 button.ghost{background:none;border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:6px 10px;font:inherit;font-size:13px;cursor:pointer}
 .row{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
 .row:first-of-type{border-top:0}
@@ -28,8 +28,8 @@ button.ghost{background:none;border:1px solid var(--line);color:var(--ink);borde
 .peg{width:14px;height:14px;border-radius:50%;background:var(--peg)}
 .peg.ok{background:var(--ok)}.peg.bad{background:var(--bad)}
 .peg.half{background:linear-gradient(90deg,var(--ok) 50%,var(--peg) 50%)}
-.score{width:44px;text-align:right;font:700 20px Georgia,serif}
-.me{color:var(--gold)}
+.score{width:44px;text-align:right;font:700 20px Georgia,serif;color:var(--gv)}
+.me{color:var(--cl)}
 .tag{font-size:12px;color:var(--mut)}
 .live{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ok);margin-right:6px;animation:p 1.4s infinite}
 @keyframes p{50%{opacity:.25}}
@@ -39,18 +39,20 @@ td.ok{color:var(--ok);font-weight:600}td.bad{color:var(--bad)}
 .scroll{overflow-x:auto}
 textarea,input[type=text],select{width:100%;background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px;font:inherit;font-size:14px;margin-top:6px}
 .note{color:var(--mut);font-size:13px}
-.noms{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:10px}
-.nom{border:1px solid var(--line);background:var(--chip);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.noms{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:12px}
+.nom{border:1px solid var(--line);background:var(--chip);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
 .nom.sel{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold)}
 .nom.win{outline:2px solid var(--ok);outline-offset:2px}
-.tap{cursor:pointer}
-.pic{width:100%;aspect-ratio:1;object-fit:cover;display:flex;align-items:center;justify-content:center;font:700 36px Georgia,serif;color:#fff}
-.nm{padding:8px 8px 4px;font-size:13px;font-weight:600;line-height:1.25}
-.lk{display:flex;gap:10px;padding:2px 8px 8px;font-size:12px}
-.lk a{color:var(--gold);text-decoration:none;font-weight:600}
-.badge{font-size:11px;color:var(--gold);padding:0 8px}
+.tap{cursor:pointer;flex:1}
+.pic{width:100%;aspect-ratio:1;object-fit:cover;display:flex;align-items:center;justify-content:center;font:700 38px Georgia,serif;color:var(--gv)}
+.nm{padding:9px 10px 4px}
+.tt{font-size:14px;font-weight:700;line-height:1.25;color:var(--gv)}
+.ar{font-size:12px;color:var(--mut);margin-top:2px}
+.lk{display:flex;gap:12px;padding:4px 10px 10px;font-size:12px}
+.lk a{color:var(--gold);text-decoration:none;font-weight:700}
+.badge{font-size:11px;color:var(--gold);padding:0 10px;font-weight:700}
 .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
-a.lnk{color:var(--gold);cursor:pointer;font-size:13px;background:none;border:0;padding:0;font-family:inherit}
+a.lnk,button.lnk{color:var(--gold);cursor:pointer;font-size:13px;background:none;border:0;padding:0;font-family:inherit}
 </style>
 </head>
 <body>
@@ -88,8 +90,8 @@ const HOST_PASSCODE = "Namhom2027";
 const TARGET = new Date("2027-02-08T07:00:00+07:00").getTime();
 
 const STARTER = [
-  {id:"roty",name:"Record of the Year",nominees:["Man I Need – Olivia Dean","Choosin’ Texas – Ella Langley","I Just Might – Bruno Mars","WHERE IS MY HUSBAND! – RAYE","the cure – Olivia Rodrigo","Berghain – ROSALÍA, Björk & Yves Tumor"]},
-  {id:"bna",name:"Best New Artist",nominees:["Angine de Poitrine","Geese","Ella Langley","Slayyyter","SIENNA SPIRO","Don Toliver","Remi Wolf","The Womack Sisters"]}
+  {id:"roty",name:"Record of the Year",kind:"song",nominees:["Man I Need – Olivia Dean","Choosin’ Texas – Ella Langley","I Just Might – Bruno Mars","WHERE IS MY HUSBAND! – RAYE","the cure – Olivia Rodrigo","Berghain – ROSALÍA, Björk & Yves Tumor"]},
+  {id:"bna",name:"Best New Artist",kind:"artist",nominees:["Angine de Poitrine","Geese","Ella Langley","Slayyyter","SIENNA SPIRO","Don Toliver","Remi Wolf","The Womack Sisters"]}
 ];
 
 const $ = s => document.querySelector(s);
@@ -99,6 +101,7 @@ const hid = s => { let x = 5381; for (const c of s) x = ((x*33) ^ c.charCodeAt(0
 const locked = () => Date.now() >= TARGET;
 
 let db, cfg = null, imgs = {}, players = {}, pid = localStorage.getItem("g27pid"), myDraft = null;
+let saveT, lastUpd = new Date();
 let isHost = sessionStorage.getItem("g27host") === "1", dirty = false, status = "";
 
 function h(tag, props, ...kids){
@@ -114,7 +117,9 @@ function h(tag, props, ...kids){
 }
 
 /* ---------- Countdown ---------- */
+let lastLocked = locked();
 function tick(){
+  if (locked() !== lastLocked){ lastLocked = locked(); render(); }
   let d = TARGET - Date.now();
   const box = $("#cd");
   if (d <= 0){
@@ -162,7 +167,7 @@ function render(){
   if (!pid || !players[pid]){ app.replaceChildren(joinCard(), leaderboard(), ...(isHost?[hostPanel()]:[])); return; }
 
   const out = [leaderboard(), h("h2",{},"Your predictions"),
-    h("div",{class:"note"}, locked() ? "Picks are locked." : "Pick 1 or 2 nominees per category, then save. One pick = 1 point if right; two picks = 0.5 point if either is right. You can change picks until kickoff. Friends see your picks after lock."),
+    h("div",{class:"note"}, locked() ? "Picks are locked." : "Pick 1 or 2 nominees per category, then save. One pick = 1 point if right; two picks = 0.5 point if either is right. Your picks save automatically, and you can change them any time until the countdown ends. Friends see your picks after lock."),
     ...cfg.cats.map(catCard)];
   if (!locked()) out.push(h("button",{class:"main",onclick:savePicks}, dirty ? "Save my picks" : "Saved ✓"), h("span",{class:"note",style:"margin-left:10px"},status));
   else out.push(h("h2",{},"Everyone’s picks"), pickTable());
@@ -184,34 +189,60 @@ function joinCard(){
 function leaderboard(){
   const rows = Object.keys(players).map(id=>({id,...scoreOf(players[id])})).sort((a,b)=>b.s-a.s);
   const done = cfg.cats.filter(c=>c.winner).length;
-  const card = h("div",{class:"card"}, h("div",{class:"tag"},h("span",{class:"live"}),"Live scoreboard · ",done+"/"+cfg.cats.length+" winners announced"));
+  const card = h("div",{class:"card"}, h("div",{class:"tag"},h("span",{class:"live"}),"Live scoreboard · ",done+"/"+cfg.cats.length+" winners announced · updated "+lastUpd.toLocaleTimeString()));
   if (!rows.length) card.append(h("div",{class:"note",style:"margin-top:8px"},"No players yet – be the first to join!"));
   rows.forEach((r,i)=>card.append(h("div",{class:"row"},
     h("div",{class:"rank"},String(i+1)),
-    h("div",{class:"name"+(r.id===pid?" me":"")},r.id===pid?"You":players[r.id].name),
+    h("div",{style:"flex:1;min-width:0"},
+      h("div",{class:"name"+(r.id===pid?" me":"")},r.id===pid?"You":players[r.id].name),
+      locked()?"":h("div",{class:"tag"},cfg.cats.filter(c=>arr(((players[r.id]||{}).picks||{})[c.id]).length).length+"/"+cfg.cats.length+" picked")),
     h("div",{class:"pegs"},cfg.cats.map((_,j)=>h("div",{class:"peg "+r.pegs[j]}))),
     h("div",{class:"score"},String(r.s)))));
   card.append(h("div",{class:"note",style:"margin-top:8px"},"🟢 1 point · 🌗 half point (2 picks) · 🔴 miss · ⚪ not announced yet"));
   return card;
 }
 
-function pic(c,n){
-  const u = imgs[c.id+"_"+hid(n)];
-  if (u) return h("img",{class:"pic",src:u,alt:n,loading:"lazy"});
-  let hue=0; for(const ch of n) hue=(hue*31+ch.charCodeAt(0))%360;
-  const ini=n.split(/[\s–-]+/).filter(w=>/^[\p{L}\p{N}]/u.test(w)).slice(0,2).map(w=>w[0].toUpperCase()).join("");
-  return h("div",{class:"pic",style:"background:hsl("+hue+" 45% 38%)"},ini||"♪");
+function parseNom(n){ const m = n.match(/^(.*?)\s[–—-]\s(.*)$/); return m ? {title:m[1].trim(),artist:m[2].trim()} : {title:n.trim(),artist:""}; }
+const artCache = (()=>{ try{ return JSON.parse(localStorage.getItem("g27art")||"{}"); }catch(e){ return {}; } })();
+const artPending = {};
+function fetchArt(c,n,k){
+  if (artPending[k]) return artPending[k];
+  const {title,artist} = parseNom(n); const kind = c.kind||"song";
+  const term = kind==="artist" ? title : (title+" "+artist);
+  const entity = kind==="song" ? "song" : "album";
+  artPending[k] = fetch("https://itunes.apple.com/search?media=music&limit=1&entity="+entity+"&term="+encodeURIComponent(term))
+    .then(r=>r.json())
+    .then(j=>{ const u = j.results && j.results[0] && j.results[0].artworkUrl100; const url = u ? u.replace("100x100bb","400x400bb") : "";
+      artCache[k] = url; try{ localStorage.setItem("g27art",JSON.stringify(artCache)); }catch(e){} return url; })
+    .catch(()=>"");
+  return artPending[k];
 }
-
+function tile(n){
+  let hue=0; for(const ch of n) hue=(hue*31+ch.charCodeAt(0))%360;
+  const ini=parseNom(n).title.split(/\s+/).filter(w=>/^[\p{L}\p{N}]/u.test(w)).slice(0,2).map(w=>w[0].toUpperCase()).join("");
+  return h("div",{class:"pic",style:"background:linear-gradient(135deg,#482d5a,#2a1d36)"},ini||"♪");
+}
+function pic(c,n){
+  const k = c.id+"_"+hid(n);
+  const mk = src => h("img",{class:"pic",src,alt:n,loading:"lazy"});
+  if (imgs[k]) return mk(imgs[k]);
+  if (artCache[k]) return mk(artCache[k]);
+  const ph = tile(n);
+  if (!(k in artCache)) fetchArt(c,n,k).then(u=>{ if(u) ph.replaceWith(mk(u)); });
+  return ph;
+}
 function catCard(c){
   const sel = arr(myDraft[c.id]);
-  const toggle = n => { if(locked())return; let a=arr(myDraft[c.id]); a = a.includes(n) ? a.filter(x=>x!==n) : (a.length>=2 ? [a[1],n] : [...a,n]); myDraft[c.id]=a; dirty=true; status=""; render(); };
+  const toggle = n => { if(locked())return; let a=arr(myDraft[c.id]); a = a.includes(n) ? a.filter(x=>x!==n) : (a.length>=2 ? [a[1],n] : [...a,n]); myDraft[c.id]=a; dirty=true; status="Saving…"; render(); clearTimeout(saveT); saveT=setTimeout(savePicks,500); };
+  const kl = {song:"Song",album:"Album",artist:"Artist"}[c.kind||"song"];
   return h("div",{class:"card"},
-    h("b",{},c.name), c.winner ? h("span",{class:"tag"}," · Winner: "+c.winner) : "",
+    h("b",{style:"color:var(--gv)"},c.name), h("span",{class:"tag"}," · "+kl+(c.winner?" · Winner: "+c.winner:"")),
     h("div",{class:"noms"}, c.nominees.map(n=>{
-      const q = encodeURIComponent(n);
+      const {title,artist} = parseNom(n);
+      const q = encodeURIComponent((title+" "+artist).trim());
       return h("div",{class:"nom"+(sel.includes(n)?" sel":"")+(c.winner===n?" win":"")},
-        h("div",{class:"tap",onclick:()=>toggle(n)},pic(c,n),h("div",{class:"nm"},n)),
+        h("div",{class:"tap",onclick:()=>toggle(n)},pic(c,n),
+          h("div",{class:"nm"},h("div",{class:"tt"},title),artist?h("div",{class:"ar"},artist):"")),
         sel.includes(n)?h("div",{class:"badge"},"✓ your pick"):"",
         h("div",{class:"lk"},
           h("a",{href:"https://open.spotify.com/search/"+q,target:"_blank",rel:"noopener noreferrer"},"Spotify"),
@@ -230,29 +261,36 @@ function pickTable(){
 }
 
 /* ---------- Host panel ---------- */
+function kindSel(val,onch){
+  const labels={song:"Song (Title – Artist)",album:"Album (Title – Artist)",artist:"Artist"};
+  return h("select",{onchange:onch},["song","album","artist"].map(k=>{const o=h("option",{value:k},labels[k]); if(k===val)o.selected=true; return o;}));
+}
 function hostPanel(){
   const box = h("div",{class:"card"},h("h2",{style:"margin-top:0"},"🎛 Host panel"),
-    h("div",{class:"note"},"Set the winner as each award is announced and everyone’s scores update instantly."));
+    h("div",{class:"note"},"Set the winner as each award is announced. Write nominees as “Title – Artist” (one per line). Cover art is found automatically; you can upload your own to override it."));
   ((cfg&&cfg.cats)||[]).forEach(c=>{
     const sel = h("select",{onchange:e=>setWinner(c.id,e.target.value)},
       h("option",{value:""},"— winner not announced —"),
       c.nominees.map(n=>{const o=h("option",{value:n},n); if(c.winner===n)o.selected=true; return o;}));
-    const ta = h("textarea",{rows:"4"}); ta.value = c.nominees.join("\n");
+    const ta = h("textarea",{rows:"5"}); ta.value = c.nominees.join("\n");
     box.append(h("div",{style:"border-top:1px solid var(--line);padding-top:10px;margin-top:10px"},
-      h("b",{},c.name),sel,
-      h("details",{},h("summary",{class:"note"},"Edit nominees (one per line)"),ta,
+      h("b",{},c.name),
+      h("div",{class:"note",style:"margin-top:6px"},"Category type:"),kindSel(c.kind||"song",e=>setKind(c.id,e.target.value)),
+      h("div",{class:"note",style:"margin-top:6px"},"Winner:"),sel,
+      h("details",{},h("summary",{class:"note"},"Edit nominees (Title – Artist, one per line)"),ta,
         h("button",{class:"ghost",style:"margin-top:6px",onclick:()=>editNominees(c.id,ta.value)},"Save nominees")),
-      h("details",{},h("summary",{class:"note"},"Upload photos (cover art / artist photo)"),
+      h("details",{},h("summary",{class:"note"},"Upload your own cover (optional)"),
         c.nominees.map(n=>h("div",{class:"note",style:"margin-top:8px"},n,h("input",{type:"file",accept:"image/*",onchange:e=>uploadPic(c,n,e)})))),
       h("button",{class:"ghost",style:"margin-top:6px",onclick:()=>{ if(confirm("Delete "+c.name+"?")) saveCats(cfg.cats.filter(x=>x.id!==c.id)); }},"Delete category")));
   });
   const nm = h("input",{type:"text",placeholder:"New category name, e.g. Album of the Year"});
-  const nn = h("textarea",{rows:"4",placeholder:"Nominees, one per line"});
-  box.append(h("div",{style:"border-top:1px solid var(--line);padding-top:10px;margin-top:14px"},h("b",{},"Add category"),nm,nn,
+  let kind = "song"; const ks = kindSel("song",e=>{kind=e.target.value;});
+  const nn = h("textarea",{rows:"5",placeholder:"One nominee per line, like:\nMan I Need – Olivia Dean"});
+  box.append(h("div",{style:"border-top:1px solid var(--line);padding-top:10px;margin-top:14px"},h("b",{},"Add category"),nm,ks,nn,
     h("button",{class:"main",style:"margin-top:8px",onclick:()=>{
       const name=nm.value.trim(), list=nn.value.split("\n").map(s=>s.trim()).filter(Boolean);
       if(!name||list.length<2) return alert("Need a name and at least 2 nominees.");
-      saveCats([...(cfg?cfg.cats:[]),{id:"c"+Date.now().toString(36),name,nominees:list}]);
+      saveCats([...(cfg?cfg.cats:[]),{id:"c"+Date.now().toString(36),name,kind,nominees:list}]);
     }},"Add")));
   return box;
 }
@@ -262,6 +300,7 @@ async function saveCats(cats){
   try{ await setDoc(doc(db,"game","config"),{cats:JSON.parse(JSON.stringify(cats))}); }
   catch(e){ alert("Could not save: "+e.message); }
 }
+function setKind(id,kind){ saveCats(cfg.cats.map(c=>c.id===id?{...c,kind}:c)); }
 function setWinner(id,val){ saveCats(cfg.cats.map(c=>{const n={...c}; if(c.id===id){ if(val) n.winner=val; else delete n.winner; } return n;})); }
 function editNominees(id,txt){
   const list = txt.split("\n").map(s=>s.trim()).filter(Boolean); if(list.length<2) return alert("Need at least 2 nominees.");
@@ -295,9 +334,13 @@ function hostLogin(){
   render();
 }
 async function savePicks(){
-  if (locked() || !pid) return;
-  try{ await setDoc(doc(db,"players",pid),{name:players[pid].name,picks:myDraft}); dirty=false; status="Saved!"; }
-  catch(e){ status="Couldn’t save – check your connection."; }
+  if (locked() || !pid || !players[pid]) return;
+  const sent = JSON.stringify(myDraft);
+  try{
+    await setDoc(doc(db,"players",pid),{name:players[pid].name,picks:myDraft});
+    if (JSON.stringify(myDraft)===sent) dirty=false;
+    status="Saved ✓ "+new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
+  }catch(e){ status="Couldn’t save – check your connection."; }
   render();
 }
 
@@ -307,9 +350,9 @@ if (!firebaseConfig.apiKey || firebaseConfig.apiKey === "PASTE_HERE"){
 } else {
   db = getFirestore(initializeApp(firebaseConfig));
   myDraft = {};
-  onSnapshot(doc(db,"game","config"), s=>{ cfg = s.exists() ? s.data() : null; render(); }, e=>app.replaceChildren(h("div",{class:"card"},"Can’t reach the game database: "+e.message)));
+  onSnapshot(doc(db,"game","config"), s=>{ cfg = s.exists() ? s.data() : null; lastUpd = new Date(); render(); }, e=>app.replaceChildren(h("div",{class:"card"},"Can’t reach the game database: "+e.message)));
   onSnapshot(collection(db,"players"), q=>{
-    players = {}; q.forEach(d=>players[d.id]=d.data());
+    players = {}; q.forEach(d=>players[d.id]=d.data()); lastUpd = new Date();
     if (pid && players[pid] && !dirty) myDraft = {...(players[pid].picks||{})};
     if (pid && !players[pid] && q.size) { /* stale id on this device */ }
     render();
